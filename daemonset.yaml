@@ -11,6 +11,15 @@ spec:
       labels:
         name: install-cni  
     spec:
+      tolerations:
+      # these tolerations are to have the daemonset runnable on control plane nodes
+      # remove them if your control plane nodes should not run pods
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
+        effect: NoSchedule
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule    
       volumes:
       - name: cni
         hostPath:
@@ -18,7 +27,7 @@ spec:
           type: Directory 
       initContainers:
       - name: install
-        image: ghcr.io/hujun-open/installcni:0.0.2
+        image: ghcr.io/hujun-open/installcni:latest
         command: ['sh', '-c', '/getcni.sh /opt/cni/bin']
         volumeMounts:
         - mountPath: /opt/cni/bin
