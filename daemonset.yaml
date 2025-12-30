@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: install-cni
+spec:
+  selector:
+    matchLabels:
+      name: install-cni
+  template:
+    metadata:
+      labels:
+        name: install-cni  
+    spec:
+      volumes:
+      - name: cni
+        hostPath:
+          path: /opt/cni/bin 
+          type: Directory 
+      initContainers:
+      - name: install
+        image: ghcr.io/hujun-open/installcni:latest
+        command: ['sh', '-c', '/getcni.sh /opt/cni/bin']
+        volumeMounts:
+        - mountPath: /opt/cni/bin
+          name: cni
+      containers:
+      - name: pause
+        image: registry.k8s.io/pause:3.9

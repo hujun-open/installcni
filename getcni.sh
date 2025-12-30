@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/cd sh
 # this script download latest version of CNI plugin to the specified folder
 
 LATEST=`curl -s https://api.github.com/repos/containernetworking/plugins/releases/latest | jq -r .tag_name`
