@@ -18,7 +18,7 @@ spec:
           type: Directory 
       initContainers:
       - name: install
-        image: ghcr.io/hujun-open/installcni:latest
+        image: ghcr.io/hujun-open/installcni:0.0.2
         command: ['sh', '-c', '/getcni.sh /opt/cni/bin']
         volumeMounts:
         - mountPath: /opt/cni/bin
